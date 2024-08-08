@@ -168,6 +168,89 @@
         flex: 0 0 100%;
         background-color: #F6F6F6;
     }
+}
 
+.reviews {
+    padding-top: 100px;
+    padding-bottom: 100px;
 
+    &__top {
+        @include flexCBetween;
+        margin-bottom: 50px;
+    }
+
+    &-item {
+        border: 1px solid $greyLine;
+        background: $white;
+        padding: 24px 20px 20px 20px;
+        position: relative;
+
+        &__icon {
+            position: absolute;
+            right: 20px;
+            top: -24px;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &__top {
+            @include flexCStart;
+            column-gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        &__name {
+            color: $dark;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+        }
+
+        &__rating {
+            width: 68px;
+            height: 12px;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &__text {
+            color: $dark;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 24px;
+            margin-bottom: 20px;
+        }
+
+        &__bottom {
+            @include flexCBetween;
+        }
+
+        &__link {
+            color: $red;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            text-decoration-line: underline;
+        }
+
+        &__date {
+            color: $dark;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
 }

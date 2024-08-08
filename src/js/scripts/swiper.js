@@ -33,3 +33,16 @@ const works_swiper = new Swiper('.works-swiper', {
     //     clickable: true
     // },
 });
+const reviews_swiper = new Swiper('.reviews-swiper', {
+    slidesPerView: 3.2,
+    spaceBetween: 24,
+    loop: false,
+    navigation: {
+        prevEl: ".reviews-swiper__swiper-button-prev",
+        nextEl: ".reviews-swiper__swiper-button-next",
+    },
+    // pagination: {
+    //     el: ".speciality-swiper__swiper-pagination",
+    //     clickable: true
+    // },
+});
