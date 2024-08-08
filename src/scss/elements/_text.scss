@@ -1,0 +1,39 @@
+.h1 {
+    color: $white;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 64px;
+    text-transform: uppercase;
+}
+
+.h2 {
+    color: $dark;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 48px;
+    text-transform: uppercase;
+    padding-bottom: 17px;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 1px;
+        width: 100%;
+        background-color: $greyLine;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        height: 3px;
+        width: 120px;
+        background-color: $red;
+    }
+}
