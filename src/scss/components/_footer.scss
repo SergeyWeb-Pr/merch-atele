@@ -4,5 +4,45 @@
     &-top {
         padding-top: 32px;
         padding-bottom: 32px;
+
+        &__container {
+            @include flexCBetween;
+            column-gap: 20px;
+        }
+
+        &__logo {
+            width: 132px;
+            height: 70px;
+            flex-shrink: 0;
+        }
+
+        .nav__list {
+            column-gap: 32px;
+        }
+    }
+
+    &-bottom {
+        padding-top: 28px;
+        padding-bottom: 28px;
+        border-top: 1px solid $greyLine;
+
+        &__container {
+            @include flexCBetween;
+            column-gap: 20px;
+        }
+
+        a,
+        span {
+            color: $dark;
+            text-align: center;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: normal;
+        }
+
+        a {
+            text-decoration-line: underline;
+        }
     }
 }
