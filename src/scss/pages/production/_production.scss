@@ -1,0 +1,105 @@
+.process {
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+    &__item {
+        @include gridColumn(2);
+        gap: 24px;
+        align-items: center;
+        @include mb(48px);
+
+        &-top {
+            @include flexCStart;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        &-num {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background-color: $red;
+            @include flexCCenter;
+            color: $white;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+            text-transform: uppercase;
+        }
+
+        &-name {
+            color: $dark;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+            text-transform: uppercase;
+        }
+
+        &-text {
+            color: $dark;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 24px;
+        }
+
+        &-image {
+            height: 360px;
+            width: calc(100% - 24px);
+            flex-shrink: 0;
+            margin-left: 24px;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &:nth-child(even) {
+            .process__item-content {
+                order: 2;
+            }
+
+            .process__item-image {
+                order: 1;
+                margin-left: 0px;
+                margin-right: 24px;
+            }
+        }
+    }
+}
+
+.examples-works {
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+    &__title {
+        margin-bottom: 50px;
+    }
+
+    &__items {
+        @include gridColumn(3);
+        gap: 24px;
+    }
+
+    &__item {
+        border: 1px solid $greyLine;
+        background-color: $white;
+        padding: 24px;
+        width: 100%;
+
+        &-image {
+            width: 100%;
+            height: 376px;
+            flex-shrink: 0;
+            @include flexCCenter;
+
+            img {
+                background-color: $greyLine;
+            }
+        }
+    }
+}

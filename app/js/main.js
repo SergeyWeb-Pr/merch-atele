@@ -51,10 +51,6 @@ const works_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.works-
     prevEl: ".works-swiper__swiper-button-prev",
     nextEl: ".works-swiper__swiper-button-next"
   }
-  // pagination: {
-  //     el: ".speciality-swiper__swiper-pagination",
-  //     clickable: true
-  // },
 });
 const reviews_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.reviews-swiper', {
   slidesPerView: 3.2,
@@ -68,6 +64,15 @@ const reviews_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.revi
   //     el: ".speciality-swiper__swiper-pagination",
   //     clickable: true
   // },
+});
+const example_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.example-swiper', {
+  slidesPerView: 5,
+  spaceBetween: 20,
+  loop: false,
+  navigation: {
+    prevEl: ".example-swiper__swiper-button-prev",
+    nextEl: ".example-swiper__swiper-button-next"
+  }
 });
 
 /***/ }),

@@ -28,10 +28,6 @@ const works_swiper = new Swiper('.works-swiper', {
         prevEl: ".works-swiper__swiper-button-prev",
         nextEl: ".works-swiper__swiper-button-next",
     },
-    // pagination: {
-    //     el: ".speciality-swiper__swiper-pagination",
-    //     clickable: true
-    // },
 });
 const reviews_swiper = new Swiper('.reviews-swiper', {
     slidesPerView: 3.2,
@@ -45,4 +41,13 @@ const reviews_swiper = new Swiper('.reviews-swiper', {
     //     el: ".speciality-swiper__swiper-pagination",
     //     clickable: true
     // },
+});
+const example_swiper = new Swiper('.example-swiper', {
+    slidesPerView: 5,
+    spaceBetween: 20,
+    loop: false,
+    navigation: {
+        prevEl: ".example-swiper__swiper-button-prev",
+        nextEl: ".example-swiper__swiper-button-next",
+    },
 });
