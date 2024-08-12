@@ -31,6 +31,7 @@
     column-gap: 12px;
     width: fit-content;
     cursor: pointer;
+    @include transition(background-color);
 
     span {
         color: #fff;
@@ -48,6 +49,28 @@
     }
 
     &:hover {
-        
+        background-color: $redHover;
+    }
+}
+
+.button3 {
+    @include flexCCenter;
+    padding: 0 24px;
+    height: 56px;
+    flex-shrink: 0;
+    background-color: $red;
+    column-gap: 12px;
+    width: fit-content;
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    @include transition(background-color);
+
+    &:hover {
+        background-color: $redHover;
     }
 }

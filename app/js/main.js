@@ -2,14 +2,427 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/_components.js":
-/*!*******************************!*\
-  !*** ./src/js/_components.js ***!
-  \*******************************/
+/***/ "./node_modules/graph-modal/src/graph-modal.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/graph-modal/src/graph-modal.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GraphModal)
+/* harmony export */ });
+class GraphModal {
+  constructor(options) {
+    let defaultOptions = {
+      isOpen: () => {},
+      isClose: () => {},
+    }
+    this.options = Object.assign(defaultOptions, options);
+    this.modal = document.querySelector('.graph-modal');
+    this.speed = 300;
+    this.animation = 'fade';
+    this._reOpen = false;
+    this._nextContainer = false;
+    this.modalContainer = false;
+    this.isOpen = false;
+    this.previousActiveElement = false;
+    this._focusElements = [
+      'a[href]',
+      'input',
+      'select',
+      'textarea',
+      'button',
+      'iframe',
+      '[contenteditable]',
+      '[tabindex]:not([tabindex^="-"])'
+    ];
+    this._fixBlocks = document.querySelectorAll('.fix-block');
+    this.events();
+  }
+
+  events() {
+    if (this.modal) {
+      document.addEventListener('click', function (e) {
+        const clickedElement = e.target.closest(`[data-graph-path]`);
+        if (clickedElement) {
+          let target = clickedElement.dataset.graphPath;
+          let animation = clickedElement.dataset.graphAnimation;
+          let speed = clickedElement.dataset.graphSpeed;
+          this.animation = animation ? animation : 'fade';
+          this.speed = speed ? parseInt(speed) : 300;
+          this._nextContainer = document.querySelector(`[data-graph-target="${target}"]`);
+          this.open();
+          return;
+        }
+
+        if (e.target.closest('.js-modal-close')) {
+          this.close();
+          return;
+        }
+      }.bind(this));
+
+      window.addEventListener('keydown', function (e) {
+        if (e.keyCode == 27 && this.isOpen) {
+          this.close();
+        }
+
+        if (e.which == 9 && this.isOpen) {
+          this.focusCatch(e);
+          return;
+        }
+      }.bind(this));
+
+      document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('graph-modal') && e.target.classList.contains("is-open")) {
+          this.close();
+        }
+      }.bind(this));
+    }
+
+  }
+
+  open(selector) {
+    this.previousActiveElement = document.activeElement;
+
+    if (this.isOpen) {
+      this.reOpen = true;
+      this.close();
+      return;
+    }
+
+    this.modalContainer = this._nextContainer;
+
+    if (selector) {
+      this.modalContainer = document.querySelector(`[data-graph-target="${selector}"]`);
+    }
+    
+    this.modalContainer.scrollTo(0, 0)
+
+    this.modal.style.setProperty('--transition-time', `${this.speed / 1000}s`);
+    this.modal.classList.add('is-open');
+
+    document.body.style.scrollBehavior = 'auto';
+    document.documentElement.style.scrollBehavior = 'auto';
+
+    this.disableScroll();
+
+    this.modalContainer.classList.add('graph-modal-open');
+    this.modalContainer.classList.add(this.animation);
+
+    setTimeout(() => {
+      this.options.isOpen(this);
+      this.modalContainer.classList.add('animate-open');
+      this.isOpen = true;
+      this.focusTrap();
+    }, this.speed);
+  }
+
+  close() {
+    if (this.modalContainer) {
+      this.modalContainer.classList.remove('animate-open');
+      this.modalContainer.classList.remove(this.animation);
+      this.modal.classList.remove('is-open');
+      this.modalContainer.classList.remove('graph-modal-open');
+
+      this.enableScroll();
+
+      document.body.style.scrollBehavior = 'auto';
+      document.documentElement.style.scrollBehavior = 'auto';
+
+      this.options.isClose(this);
+      this.isOpen = false;
+      this.focusTrap();
+
+      if (this.reOpen) {
+        this.reOpen = false;
+        this.open();
+      }
+    }
+  }
+
+  focusCatch(e) {
+    const nodes = this.modalContainer.querySelectorAll(this._focusElements);
+    const nodesArray = Array.prototype.slice.call(nodes);
+    const focusedItemIndex = nodesArray.indexOf(document.activeElement)
+    if (e.shiftKey && focusedItemIndex === 0) {
+      nodesArray[nodesArray.length - 1].focus();
+      e.preventDefault();
+    }
+    if (!e.shiftKey && focusedItemIndex === nodesArray.length - 1) {
+      nodesArray[0].focus();
+      e.preventDefault();
+    }
+  }
+
+  focusTrap() {
+    const nodes = this.modalContainer.querySelectorAll(this._focusElements);
+    if (this.isOpen) {
+      if (nodes.length) nodes[0].focus();
+    } else {
+      this.previousActiveElement.focus();
+    }
+  }
+
+  disableScroll() {
+    let pagePosition = window.scrollY;
+    this.lockPadding();
+    document.body.classList.add('disable-scroll');
+    document.body.dataset.position = pagePosition;
+    document.body.style.top = -pagePosition + 'px';
+  }
+
+  enableScroll() {
+    let pagePosition = parseInt(document.body.dataset.position, 10);
+    this.unlockPadding();
+    document.body.style.top = 'auto';
+    document.body.classList.remove('disable-scroll');
+    window.scrollTo({
+      top: pagePosition,
+      left: 0
+    });
+    document.body.removeAttribute('data-position');
+  }
+
+  lockPadding() {
+    let paddingOffset = window.innerWidth - document.body.offsetWidth + 'px';
+    this._fixBlocks.forEach((el) => {
+      el.style.paddingRight = paddingOffset;
+    });
+    document.body.style.paddingRight = paddingOffset;
+  }
+
+  unlockPadding() {
+    this._fixBlocks.forEach((el) => {
+      el.style.paddingRight = '0px';
+    });
+    document.body.style.paddingRight = '0px';
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/js/_vars.js":
+/*!*************************!*\
+  !*** ./src/js/_vars.js ***!
+  \*************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-console.log('components');
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  windowEl: window,
+  documentEl: document,
+  htmlEl: document.documentElement,
+  bodyEl: document.body
+});
+
+/***/ }),
+
+/***/ "./src/js/functions/disable-scroll.js":
+/*!********************************************!*\
+  !*** ./src/js/functions/disable-scroll.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   disableScroll: () => (/* binding */ disableScroll)
+/* harmony export */ });
+/* harmony import */ var _vars_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_vars.js */ "./src/js/_vars.js");
+
+const disableScroll = () => {
+  const fixBlocks = document?.querySelectorAll('.fixed-block');
+  const pagePosition = window.scrollY;
+  const paddingOffset = `${window.innerWidth - _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.offsetWidth}px`;
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].htmlEl.style.scrollBehavior = 'none';
+  fixBlocks.forEach(el => {
+    el.style.paddingRight = paddingOffset;
+  });
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.style.paddingRight = paddingOffset;
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.classList.add('dis-scroll');
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.dataset.position = pagePosition;
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.style.top = `-${pagePosition}px`;
+};
+
+/***/ }),
+
+/***/ "./src/js/functions/enable-scroll.js":
+/*!*******************************************!*\
+  !*** ./src/js/functions/enable-scroll.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   enableScroll: () => (/* binding */ enableScroll)
+/* harmony export */ });
+/* harmony import */ var _vars_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_vars.js */ "./src/js/_vars.js");
+
+const enableScroll = () => {
+  const fixBlocks = document?.querySelectorAll('.fixed-block');
+  const body = document.body;
+  const pagePosition = parseInt(_vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.dataset.position, 10);
+  fixBlocks.forEach(el => {
+    el.style.paddingRight = '0px';
+  });
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.style.paddingRight = '0px';
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.style.top = 'auto';
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.classList.remove('dis-scroll');
+  window.scroll({
+    top: pagePosition,
+    left: 0
+  });
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].bodyEl.removeAttribute('data-position');
+  _vars_js__WEBPACK_IMPORTED_MODULE_0__["default"].htmlEl.style.scrollBehavior = 'smooth';
+};
+
+/***/ }),
+
+/***/ "./src/js/scripts/anchor.js":
+/*!**********************************!*\
+  !*** ./src/js/scripts/anchor.js ***!
+  \**********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+const anchors = document.querySelectorAll('a[href*="#"]');
+for (let anchor of anchors) {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+    const blockID = anchor.getAttribute('href');
+    const fixedHeaderHeight = 30;
+    const top = document.querySelector('' + blockID).offsetTop - fixedHeaderHeight;
+    window.scrollTo({
+      top,
+      left: 0,
+      behavior: "smooth"
+    });
+  });
+}
+var mainNav = document.querySelector('.anchor-top');
+window.onscroll = function () {
+  windowScroll();
+};
+function windowScroll() {
+  mainNav.classList.toggle("scroll", mainNav.scrollTop > 50 || document.documentElement.scrollTop > 50);
+}
+
+/***/ }),
+
+/***/ "./src/js/scripts/burger.js":
+/*!**********************************!*\
+  !*** ./src/js/scripts/burger.js ***!
+  \**********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _functions_disable_scroll_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions/disable-scroll.js */ "./src/js/functions/disable-scroll.js");
+/* harmony import */ var _functions_enable_scroll_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions/enable-scroll.js */ "./src/js/functions/enable-scroll.js");
+
+
+(function () {
+  const burger = document?.querySelector('[data-burger]');
+  const menu = document?.querySelector('[data-menu]');
+  const menuItems = document?.querySelectorAll('[data-menu-item]');
+  const overlay = document?.querySelector('[data-menu-overlay]');
+  burger?.addEventListener('click', e => {
+    burger?.classList.toggle('burger--active');
+    menu?.classList.toggle('menu--active');
+    if (menu?.classList.contains('menu--active')) {
+      burger?.setAttribute('aria-expanded', 'true');
+      burger?.setAttribute('aria-label', 'Закрыть меню');
+      (0,_functions_disable_scroll_js__WEBPACK_IMPORTED_MODULE_0__.disableScroll)();
+    } else {
+      burger?.setAttribute('aria-expanded', 'false');
+      burger?.setAttribute('aria-label', 'Открыть меню');
+      (0,_functions_enable_scroll_js__WEBPACK_IMPORTED_MODULE_1__.enableScroll)();
+    }
+  });
+  overlay?.addEventListener('click', () => {
+    burger?.setAttribute('aria-expanded', 'false');
+    burger?.setAttribute('aria-label', 'Открыть меню');
+    burger.classList.remove('burger--active');
+    menu.classList.remove('menu--active');
+    (0,_functions_enable_scroll_js__WEBPACK_IMPORTED_MODULE_1__.enableScroll)();
+  });
+  menuItems?.forEach(el => {
+    el.addEventListener('click', () => {
+      burger?.setAttribute('aria-expanded', 'false');
+      burger?.setAttribute('aria-label', 'Открыть меню');
+      burger.classList.remove('burger--active');
+      menu.classList.remove('menu--active');
+      (0,_functions_enable_scroll_js__WEBPACK_IMPORTED_MODULE_1__.enableScroll)();
+    });
+  });
+})();
+
+/***/ }),
+
+/***/ "./src/js/scripts/fancy.js":
+/*!*********************************!*\
+  !*** ./src/js/scripts/fancy.js ***!
+  \*********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+Fancybox.bind("[data-fancybox]", {
+  // Your custom options
+});
+
+/***/ }),
+
+/***/ "./src/js/scripts/menu.js":
+/*!********************************!*\
+  !*** ./src/js/scripts/menu.js ***!
+  \********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+function hoverLink() {
+  const links = $('.nav__list > .menu-item-has-children');
+  links.each(function () {
+    const link = $(this);
+    const btnLink = link.find(' > svg');
+    const linkMenu = link.find(' > .sub-menu');
+    if (window.innerWidth > 1200) {
+      link.on('mouseover', function () {
+        linkMenu.addClass('active');
+        link.addClass('active');
+      });
+      link.on('mouseout', function () {
+        linkMenu.removeClass('active');
+        links.removeClass('active');
+      });
+    } else {
+      let isOpen = false;
+      btnLink.on('click', function (event) {
+        linkMenu.slideToggle();
+        linkMenu.toggleClass('active');
+        link.toggleClass('active');
+        isOpen = !isOpen;
+      });
+    }
+  });
+}
+hoverLink();
+
+/***/ }),
+
+/***/ "./src/js/scripts/modal.js":
+/*!*********************************!*\
+  !*** ./src/js/scripts/modal.js ***!
+  \*********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var graph_modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graph-modal */ "./node_modules/graph-modal/src/graph-modal.js");
+// Реализация модального окна
+
+const modal = new graph_modal__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 /***/ }),
 
@@ -29,9 +442,17 @@ swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper_modules__WEBPACK_IMPO
 const hero_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.hero-swiper', {
   slidesPerView: 1,
   loop: true,
-  autoplay: {
-    delay: 3000,
-    disableOnInteraction: true
+  // autoplay: {
+  //     delay: 3000,
+  //     disableOnInteraction: true,
+  // },
+  navigation: {
+    prevEl: ".hero-swiper__swiper-button-prev",
+    nextEl: ".hero-swiper__swiper-button-next"
+  },
+  pagination: {
+    el: '.hero-swiper__swiper-pagination',
+    clickable: true
   }
 });
 const speciality_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.speciality-swiper', {
@@ -41,6 +462,24 @@ const speciality_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.s
   navigation: {
     prevEl: ".speciality-swiper__swiper-button-prev",
     nextEl: ".speciality-swiper__swiper-button-next"
+  },
+  breakpoints: {
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 20
+    },
+    769: {
+      slidesPerView: 4,
+      spaceBetween: 20
+    },
+    1201: {
+      slidesPerView: 6,
+      spaceBetween: 20
+    },
+    1367: {
+      slidesPerView: 8,
+      spaceBetween: 22
+    }
   }
 });
 const works_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.works-swiper', {
@@ -50,6 +489,24 @@ const works_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.works-
   navigation: {
     prevEl: ".works-swiper__swiper-button-prev",
     nextEl: ".works-swiper__swiper-button-next"
+  },
+  breakpoints: {
+    320: {
+      slidesPerView: 1.8,
+      spaceBetween: 8
+    },
+    769: {
+      slidesPerView: 2.8,
+      spaceBetween: 8
+    },
+    1201: {
+      slidesPerView: 3.8,
+      spaceBetween: 8
+    },
+    1367: {
+      slidesPerView: 4.8,
+      spaceBetween: 8
+    }
   }
 });
 const reviews_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.reviews-swiper', {
@@ -59,11 +516,25 @@ const reviews_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.revi
   navigation: {
     prevEl: ".reviews-swiper__swiper-button-prev",
     nextEl: ".reviews-swiper__swiper-button-next"
+  },
+  breakpoints: {
+    320: {
+      slidesPerView: 1.4,
+      spaceBetween: 12
+    },
+    769: {
+      slidesPerView: 2.4,
+      spaceBetween: 20
+    },
+    1201: {
+      slidesPerView: 2.8,
+      spaceBetween: 24
+    },
+    1367: {
+      slidesPerView: 3.2,
+      spaceBetween: 24
+    }
   }
-  // pagination: {
-  //     el: ".speciality-swiper__swiper-pagination",
-  //     clickable: true
-  // },
 });
 const example_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.example-swiper', {
   slidesPerView: 5,
@@ -72,6 +543,24 @@ const example_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.exam
   navigation: {
     prevEl: ".example-swiper__swiper-button-prev",
     nextEl: ".example-swiper__swiper-button-next"
+  },
+  breakpoints: {
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 12
+    },
+    769: {
+      slidesPerView: 3,
+      spaceBetween: 20
+    },
+    1201: {
+      slidesPerView: 4,
+      spaceBetween: 20
+    },
+    1367: {
+      slidesPerView: 5,
+      spaceBetween: 20
+    }
   }
 });
 
@@ -10532,11 +11021,18 @@ var __webpack_exports__ = {};
   !*** ./src/js/main.js ***!
   \************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_components.js */ "./src/js/_components.js");
-/* harmony import */ var _scripts_swiper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/swiper.js */ "./src/js/scripts/swiper.js");
-
-
+/* harmony import */ var _scripts_swiper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scripts/swiper.js */ "./src/js/scripts/swiper.js");
+/* harmony import */ var _scripts_fancy_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/fancy.js */ "./src/js/scripts/fancy.js");
+/* harmony import */ var _scripts_anchor_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scripts/anchor.js */ "./src/js/scripts/anchor.js");
+/* harmony import */ var _scripts_menu_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scripts/menu.js */ "./src/js/scripts/menu.js");
+/* harmony import */ var _scripts_modal_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scripts/modal.js */ "./src/js/scripts/modal.js");
+/* harmony import */ var _scripts_burger_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./scripts/burger.js */ "./src/js/scripts/burger.js");
 //scripts
+
+
+
+
+
 
 /******/ })()
 ;

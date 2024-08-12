@@ -1,12 +1,12 @@
+//general
+@import "./general/_breakpoints";
+@import "./general/_colors";
+
 // базовые подключения
 @import "vars";
 @import "mixins";
 @import "fonts";
 @import "settings";
-
-//general
-@import "./general/_breakpoints";
-@import "./general/_colors";
 
 //elements
 @import "./elements/nav";
@@ -15,6 +15,7 @@
 @import "./elements/elems";
 @import "./elements/text";
 @import "./elements/swiper";
+@import "./elements/fancy";
 
 // подключения компонентов страницы
 @import "./components/header";

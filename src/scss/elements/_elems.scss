@@ -12,3 +12,21 @@
         flex-shrink: 0;
     }
 }
+
+@media screen and (max-width: $laptop) {
+    .section {
+        margin-bottom: 80px;
+    }
+}
+
+@media screen and (max-width: $tablet) {
+    .section {
+        margin-bottom: 64px;
+    }
+}
+
+@media screen and (max-width: $mob) {
+    .section {
+        margin-bottom: 40px;
+    }
+}

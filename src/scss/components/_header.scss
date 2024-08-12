@@ -58,17 +58,133 @@
 
         &__container {
             @include flexCBetween;
+            column-gap: 20px;
+        }
+
+        &__menu {
+            .header-bottom__button {
+                display: none;
+            }
+
+            .header-top__location {
+                display: none;
+            }
+
+            .header-top__work {
+                display: none;
+            }
+
+            .header-top__socials {
+                display: none;
+            }
+        }
+
+        &__logo {
+            width: 132px;
+            height: 70px;
+            flex-shrink: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .header-top__tel {
+            display: none;
+        }
+    }
+}
+
+.burger {
+    display: none;
+}
+
+@media screen and (max-width: $laptop) {}
+
+@media screen and (max-width: $tablet) {
+    .burger {
+        @include burger;
+        display: block;
+    }
+
+    .header-top {
+        display: none;
+    }
+
+    .header-bottom {
+        &__menu {
+            display: none;
+            padding: 26px;
+            position: absolute;
+            left: 0;
+            top: 110px;
+            width: 100%;
+            height: calc(100% - 110px);
+            background-color: $white;
+            z-index: 12;
+            border-top: 1px solid $borderLine;
+
+            &.menu--active {
+                display: block;
+
+                .nav__list {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    row-gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                .header-bottom__button {
+                    display: flex;
+                    margin-bottom: 20px;
+                }
+
+                .header-top__location {
+                    display: flex;
+                    margin-bottom: 20px;
+                }
+
+                .header-top__work {
+                    display: flex;
+                    margin-bottom: 20px;
+                }
+
+                .header-top__socials {
+                    display: flex;
+                }
+            }
+        }
+
+        .header-top__tel {
+            display: flex;
         }
     }
 
-    &__logo {
-        width: 132px;
-        height: 70px;
-        flex-shrink: 0;
+    .mobile-tablet-hide {
+        display: none;
+    }
+}
 
-        img {
-            width: 100%;
-            height: 100%;
-        }
+@media screen and (max-width: $mob) {
+    .header-bottom {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .header-bottom__logo {
+        width: auto;
+        height: 50px;
+    }
+
+    .header-bottom__menu {
+        top: 74px;
+        height: calc(100% - 74px);
+        padding: 16px;
+    }
+
+    .burger {
+        width: 24px;
+        height: 24px;
     }
 }

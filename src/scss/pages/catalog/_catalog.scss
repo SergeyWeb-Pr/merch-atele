@@ -43,6 +43,12 @@
     }
 }
 
+@media screen and (max-width: $mob) {
+    .intro__title {
+        margin-bottom: 20px;
+    }
+}
+
 .about {
     padding-top: 100px;
 
@@ -96,6 +102,54 @@
     }
 }
 
+@media screen and (max-width: $laptop) {
+    .about {
+        padding-top: 80px;
+    }
+
+    .about__title {
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: $tablet) {
+    .about {
+        padding-top: 64px;
+    }
+
+    .about__title {
+        margin-bottom: 32px;
+    }
+
+    .about__image {
+        margin-left: 0;
+        width: 100%;
+        height: 400px;
+    }
+
+    .about__item {
+        padding: 16px;
+    }
+}
+
+@media screen and (max-width: $mob) {
+    .about {
+        padding-top: 40px;
+    }
+
+    .about__title {
+        margin-bottom: 20px;
+    }
+
+    .about__container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .about__image {
+        height: 300px;
+    }
+}
+
 .example {
     &__title {
         margin-bottom: 50px;
@@ -108,12 +162,49 @@
         height: 248px;
         flex-shrink: 0;
         padding: 24px 30px;
+        display: inline-block;
+        @include transition(border);
+
+        &:hover {
+            border: 1px solid $red;
+        }
 
         &__image {
             width: 100%;
             height: 200px;
             flex-shrink: 0;
             @include flexCCenter;
+        }
+    }
+}
+
+@media screen and (max-width: $laptop) {
+    .example__title {
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: $tablet) {
+    .example__title {
+        margin-bottom: 32px;
+    }
+}
+
+@media screen and (max-width: $mob) {
+    .example__title {
+        margin-bottom: 20px;
+    }
+
+    .example-item {
+        height: 200px;
+    }
+
+    .example-item__image {
+        height: 150px;
+
+        img {
+            width: auto;
+            height: 100%;
         }
     }
 }
@@ -139,8 +230,7 @@
                         padding-top: 12px;
                         padding-bottom: 16px;
                         text-align: center;
-                        padding-left: 58px;
-                        padding-right: 58px;
+                        padding: 12px 45px 16px 45px;
                         color: $dark;
                         font-size: 16px;
                         font-style: normal;
@@ -156,11 +246,9 @@
                     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 
                     td {
-                        padding: 10px;
                         border-bottom: 1px solid $greyLine;
                         text-align: center;
-                        padding-left: 58px;
-                        padding-right: 58px;
+                        padding: 24px 58px;
                         color: $dark;
                         font-size: 14px;
                         font-style: normal;
@@ -170,6 +258,24 @@
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: $laptop) {
+    .price__title {
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: $tablet) {
+    .price__title {
+        margin-bottom: 32px;
+    }
+}
+
+@media screen and (max-width: $mob) {
+    .price__title {
+        margin-bottom: 20px;
     }
 }
 
@@ -189,6 +295,16 @@
         background: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
     }
 
+    &__title {
+        margin-bottom: 50px;
+
+        &::before {
+            width: 360px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
     &__block {
         position: relative;
         z-index: 1;
@@ -203,6 +319,71 @@
             left: 50%;
             transform: translateX(-50%);
         }
+    }
+
+    &__form {
+        @include flexFeBetween;
+        column-gap: 24px;
+
+        .form__label {
+            margin-bottom: 0;
+        }
+
+        .form__btn {
+            padding-left: 85px;
+            padding-right: 120px;
+        }
+    }
+}
+
+@media screen and (max-width: $laptop) {
+    .quote {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .quote__title {
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: $tablet) {
+    .quote {
+        padding-top: 64px;
+        padding-bottom: 64px;
+    }
+
+    .quote__block {
+        padding: 40px;
+    }
+
+    .quote__title {
+        margin-bottom: 32px;
+    }
+
+    .quote__form {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: $mob) {
+    .quote {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .quote__title {
+        margin-bottom: 20px;
+    }
+
+    .quote__title::before {
+        width: 100%;
+    }
+
+    .quote__block {
+        padding: 20px;
     }
 }
 
@@ -253,5 +434,32 @@
             font-weight: 300;
             line-height: 24px;
         }
+    }
+}
+
+@media screen and (max-width: $laptop) {
+    .order__title {
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: $tablet) {
+    .order__title {
+        margin-bottom: 32px;
+    }
+
+    .order__items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: $mob) {
+    .order__title {
+        margin-bottom: 20px;
+    }
+
+    .order__items {
+        grid-template-columns: repeat(1, 1fr);
     }
 }

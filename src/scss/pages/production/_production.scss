@@ -90,6 +90,12 @@
         background-color: $white;
         padding: 24px;
         width: 100%;
+        display: inline-block;
+        @include transition(border);
+
+        &:hover {
+            border: 1px solid $redHover;
+        }
 
         &-image {
             width: 100%;

@@ -19,7 +19,7 @@
         <img loading="lazy" src="img/icons/icon_time.svg" class="image" width="" height="" alt="">
         <a href="tel:+7 999 777 33 77">+7 999 777 33 77</a>
       </div>
-      <button class="btn-reset button1 header-bottom__button">Онлайн заявка</button>
+      <button class="btn-reset button1 header-bottom__button" data-graph-path="modal">Онлайн заявка</button>
       <div class="header-top__socials">
         <a class="header-top__social" href="">
           <img loading="lazy" src="img/socials/icon_telegram.png" class="image" width="" height="" alt="">
@@ -37,5 +37,32 @@
       <a href="">Разарботка сайта</a>
     </div>
   </div>
-
 </footer>
+
+<a href="#anchor-top" class="anchor-top"></a>
+
+<div class="graph-modal">
+  <div class="graph-modal__container modal" role="dialog" aria-modal="true" data-graph-target="modal">
+    <button class="btn-reset js-modal-close graph-modal__close" aria-label="Закрыть модальное окно"></button>
+    <div class="graph-modal__content">
+      <form action="#" class="form">
+        <div class="h2 form__title">ПОставить зявку</div>
+        <label class="form__label">
+          <input type="text" name="Имя" class="input-reset form__input" placeholder="Ваше имя">
+        </label>
+        <label class="form__label">
+          <input type="text" name="Имя" class="input-reset form__input" placeholder="Ваш e-mail">
+        </label>
+        <label class="form__label">
+          <input type="text" name="Имя" class="input-reset form__input" placeholder="Контактный телефон">
+        </label>
+        <div class="form__btn-wrapper">
+          <button class="btn-reset button3 form__btn">Отправить</button>
+        </div>
+        <div class="form__description">Отправляя эту форму, я соглашаюсь
+          с <a href="#">Политикой конфиденциальности</a> и даю разрешение
+          на обработку моих персональных данных!</div>
+      </form>
+    </div>
+  </div>
+</div>

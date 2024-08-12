@@ -29,11 +29,13 @@ a {
 }
 
 .site-container {
-  overflow: hidden; // если используете на сайте position: sticky - уберите эту настройку
+  overflow: hidden;
+  position: relative;
 }
 
 .is-hidden {
-  display: none !important; /* stylelint-disable-line declaration-no-important */
+  display: none !important;
+  /* stylelint-disable-line declaration-no-important */
 }
 
 .btn-reset {
@@ -55,6 +57,7 @@ a {
   border: none;
   border-radius: 0;
   background-color: #fff;
+  outline: none;
 
   &::-webkit-search-decoration,
   &::-webkit-search-cancel-button,
@@ -79,6 +82,12 @@ a {
   margin: 0 auto;
   padding: 0 var(--container-offset);
   max-width: var(--container-width);
+}
+
+@media screen and (max-width: $mob) {
+  .container {
+    padding: 0 16px;
+  }
 }
 
 .centered {
