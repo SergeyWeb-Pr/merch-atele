@@ -101,4 +101,13 @@
     .form__label:not(:last-child) {
         margin-bottom: 20px;
     }
+
+    .form__btn-wrapper::after {
+        right: 10%;
+        transform: translateY(-50%);
+    }
+
+    .modal {
+        padding: 20px;
+    }
 }

@@ -442,10 +442,10 @@ swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper_modules__WEBPACK_IMPO
 const hero_swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.hero-swiper', {
   slidesPerView: 1,
   loop: true,
-  // autoplay: {
-  //     delay: 3000,
-  //     disableOnInteraction: true,
-  // },
+  autoplay: {
+    delay: 3000,
+    disableOnInteraction: true
+  },
   navigation: {
     prevEl: ".hero-swiper__swiper-button-prev",
     nextEl: ".hero-swiper__swiper-button-next"

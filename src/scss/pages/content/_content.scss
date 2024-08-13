@@ -1,0 +1,105 @@
+.template {
+    padding-top: 80px;
+    font-size: 16px;
+    line-height: 150%;
+
+    &__title {
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 64px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 48px;
+        text-transform: uppercase;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    strong,
+    b {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        margin-bottom: 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        li {
+            padding-left: 20px;
+            position: relative;
+            @include mb(12px);
+
+            &::before {
+                content: '';
+                position: absolute;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background-color: $dark;
+                left: 0;
+                top: 10px;
+            }
+        }
+    }
+
+    ol {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        list-style-type: none;
+        counter-reset: num;
+
+        li {
+            padding-left: 20px;
+            position: relative;
+            @include mb(12px);
+
+            &::before {
+                content: counter(num) '.';
+                counter-increment: num;
+                position: absolute;
+                left: 0;
+                top: 0px;
+            }
+        }
+    }
+
+    img {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: $laptop) {}
+
+@media screen and (max-width: $tablet) {}
+
+@media screen and (max-width: $mob) {}
